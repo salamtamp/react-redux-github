@@ -1,12 +1,13 @@
 import React from "react";
 
-const Profile = ({ profile }) => {
+const Profile = ({ username, profile }) => {
   const defaultImageUri =
     "https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png";
 
   return (
     <div className="box">
-      <article className="media">
+      { profile.id
+        ? <article className="media">
         <div className="media-left">
           <figure className="image is-64x64">
             <img src={profile.avatar_url || defaultImageUri} alt="avatar" />
@@ -15,8 +16,13 @@ const Profile = ({ profile }) => {
         <div className="media-content">
           <div className="content">
             <p>
-              <strong>{profile.name || "No name"}</strong>{" "}
-              <small>(id: {profile.id || "0"})</small>{" "}
+              <strong>
+                <a href={`https://github.com/${username}`} target="_blank" rel="noopener noreferrer">
+                  {profile.name || "No name"}
+                </a>
+              </strong>
+              {" "}
+              <small>(id: {profile.id || "0"})</small>
             </p>
             <p>
               {`repos: ${profile.public_repos ||
@@ -24,8 +30,9 @@ const Profile = ({ profile }) => {
                 0}  follower: ${profile.followers || 0}`}
             </p>
           </div>
-        </div>
-      </article>
+        </div></article>
+        : <p>...no profile...</p>
+      }
     </div>
   );
 };
